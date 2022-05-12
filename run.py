@@ -6,7 +6,7 @@ import ctypes
 import yaml
 import ROOT
 from ROOT import TFile
-from analyze_pair import analyze_mee_ptee, analyze_mee_ptee_dcaee, analyze_mee_ptee_efficiency, analyze_mee_ptee_dcaee_efficiency
+from analyze_pair import analyze_mee_ptee, analyze_mee_ptee_dcaee, analyze_mee_ptee_efficiency
 
 parser = argparse.ArgumentParser('Example program');
 parser.add_argument("-i", "--input" , default="AnalysisResults.root", type=str, help="path to the root file you want to analyze", required=True)

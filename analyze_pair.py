@@ -6,7 +6,7 @@ import ROOT
 from ROOT import TH1D, TH2D, TH3D, TList
 from ROOT import gROOT, gSystem, gStyle, gPad
 from ROOT import kWhite, kBlack, kRed, kGreen, kBlue, kYellow, kOrange
-from histo_analyzer import slice_histogram, rebin_histogram, get_R_factor, get_corrected_bkg, get_bkg_subtracted, get_SBratio
+from histo_manager import slice_histogram, rebin_histogram, get_R_factor, get_corrected_bkg, get_bkg_subtracted, get_SBratio
 
 #_________________________________________________________________________________________
 def analyze_mee_ptee(rootfile,cutname,arr_mee, arr_ptee):
