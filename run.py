@@ -6,7 +6,7 @@ import ctypes
 import yaml
 import ROOT
 from ROOT import TFile
-from analyze_pair import analyze_mee_ptee, analyze_mee_ptee_dcaee
+from analyze_pair import analyze_mee_ptee, analyze_mee_ptee_dcaee, analyze_mee_ptee_efficiency, analyze_mee_ptee_dcaee_efficiency
 
 parser = argparse.ArgumentParser('Example program');
 parser.add_argument("-i", "--input" , default="AnalysisResults.root", type=str, help="path to the root file you want to analyze", required=True)
@@ -17,7 +17,6 @@ args = parser.parse_args();
 filename = args.input;
 with open(args.config, "r", encoding="utf-8") as config_yml:
     config = yaml.safe_load(config_yml)
-
 #_________________________________________________________________________________________
 def run(filename,config,ismc):
     print(sys._getframe().f_code.co_name);
@@ -39,22 +38,39 @@ def run(filename,config,ismc):
         outname = "output_{0}_mee_ptee_dcaee_{1}_{2}TeV.root".format(args.type,config["common"]["system"],config["common"]["energy"]);
         print("output file name = ",outname);
         outfile = TFile(outname,"RECREATE");
-        for ic in range(0,nc):
-            outlist = analyze_mee_ptee_dcaee(rootfile,cutnames[ic],arr_mee,arr_ptee,arr_dcaee);
-            outlist.SetOwner(True);
-            outfile.WriteTObject(outlist);
-            outlist.Clear();
+
+        if ismc:
+            for ic in range(0,nc):
+                outlist = analyze_mee_ptee_efficiency(rootfile,cutnames[ic],arr_mee,arr_ptee,arr_dcaee);
+                outlist.SetOwner(True);
+                outfile.WriteTObject(outlist);
+                outlist.Clear();
+        else:
+            for ic in range(0,nc):
+                outlist = analyze_mee_ptee_dcaee(rootfile,cutnames[ic],arr_mee,arr_ptee,arr_dcaee);
+                outlist.SetOwner(True);
+                outfile.WriteTObject(outlist);
+                outlist.Clear();
     elif config["common"]["do_mee_ptee"] == True:
         outname = "output_{0}_mee_ptee_{1}_{2}TeV.root".format(args.type,config["common"]["system"],config["common"]["energy"]);
         print("output file name = ",outname);
         outfile = TFile(outname,"RECREATE");
-        for ic in range(0,nc):
-            outlist = analyze_mee_ptee_dcaee(rootfile,cutnames[ic],arr_mee,arr_ptee,arr_dcaee);
-            outlist.SetOwner(True);
-            outfile.WriteTObject(outlist);
-            outlist.Clear();
+
+        if ismc:
+            for ic in range(0,nc):
+                outlist = analyze_mee_ptee_efficiency(rootfile,cutnames[ic],arr_mee,arr_ptee,arr_dcaee);
+                outlist.SetOwner(True);
+                outfile.WriteTObject(outlist);
+                outlist.Clear();
+        else:
+            for ic in range(0,nc):
+                outlist = analyze_mee_ptee(rootfile,cutnames[ic],arr_mee,arr_ptee,arr_dcaee);
+                outlist.SetOwner(True);
+                outfile.WriteTObject(outlist);
+                outlist.Clear();
     else:
         print("please check what to do in",args.config);
+
     outfile.Close();
     rootfile.Close();
 #_________________________________________________________________________________________
