@@ -8,13 +8,16 @@ from ROOT import gROOT, gSystem, gStyle, gPad
 from ROOT import kWhite, kBlack, kRed, kGreen, kBlue, kYellow, kOrange
 from histo_analyzer import slice_histogram, rebin_histogram, get_R_factor, get_corrected_bkg, get_bkg_subtracted, get_SBratio
 
-#____________________________________________________________________________________________
-def analyze_mee_pTee(arr_mee, arr_ptee):
-    print(arr_mee);
-    print(arr_ptee);
-#____________________________________________________________________________________________
-def analyze_mee_pTee_dcaee(arr_mee, arr_ptee, arr_dcaee):
-    print(arr_mee);
-    print(arr_ptee);
-    print(arr_dcaee);
-#____________________________________________________________________________________________
+#_________________________________________________________________________________________
+def analyze_mee_ptee(rootfile,cutname,arr_mee, arr_ptee):
+    print(sys._getframe().f_code.co_name);
+    outlist = TList();
+    outlist.SetName(cutname);
+    return outlist;
+#_________________________________________________________________________________________
+def analyze_mee_ptee_dcaee(rootfile,cutname,arr_mee, arr_ptee, arr_dcaee):
+    print(sys._getframe().f_code.co_name);
+    outlist = TList();
+    outlist.SetName(cutname);
+    return outlist;
+#_________________________________________________________________________________________
