@@ -9,6 +9,6 @@ def make_common_style(g1,marker,size,color,width=1,fill=0):
     g1.SetMarkerColor(color);
     g1.SetMarkerSize(size);
     g1.SetLineColor(color);
-    g1.SetLineWidth(line);
+    g1.SetLineWidth(width);
     g1.SetFillColor(color);
     g1.SetFillStyle(fill);
