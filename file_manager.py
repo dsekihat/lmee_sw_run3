@@ -6,6 +6,7 @@ class FileManager:
         rootfile = TFile.Open(list_hierarchies[0],"READ"); 
         self.list = [];
         self.list.append(rootfile);
+        ROOT.SetOwnership(rootfile,False);
         n = len(list_hierarchies);
         for i in range(1,n):
             #print(self.list[i-1].IsA());
@@ -22,7 +23,7 @@ class FileManager:
             print("self.list[-1] is None. return None.");
             return None;
         else:
-            if self.list[-1].IsA() == TFile.Class() == TDirectory.Class() == TDirectoryFile.Class():
+            if self.list[-1].IsA() == TFile.Class() or self.list[-1].IsA() == TDirectory.Class() or self.list[-1].IsA() == TDirectoryFile.Class():
                 return self.list[-1].Get(objname);
             else:
                 return self.list[-1].FindObject(objname);
