@@ -35,13 +35,13 @@ def run(filename,config,ismc):
     nc = len(cutnames);
 
     if config["common"]["do_mee_ptee_dcaee"] == True:
-        outname = "output_{0}_mee_ptee_dcaee_{1}_{2}TeV.root".format(args.type,config["common"]["system"],config["common"]["energy"]);
+        outname = "output_{0}_mee_ptee_dcaee_{1}_{2}TeV_{3}.root".format(args.type,config["common"]["system"],config["common"]["energy"],config["common"]["period"]);
         print("output file name = ",outname);
         outfile = TFile(outname,"RECREATE");
 
         if ismc:
             for ic in range(0,nc):
-                outlist = analyze_mee_ptee_efficiency(rootfile,cutnames[ic],arr_mee,arr_ptee,arr_dcaee);
+                outlist = analyze_mee_ptee_efficiency(rootfile,cutnames[ic],arr_mee,arr_ptee);
                 outlist.SetOwner(True);
                 outfile.WriteTObject(outlist);
                 outlist.Clear();
@@ -52,13 +52,13 @@ def run(filename,config,ismc):
                 outfile.WriteTObject(outlist);
                 outlist.Clear();
     elif config["common"]["do_mee_ptee"] == True:
-        outname = "output_{0}_mee_ptee_{1}_{2}TeV.root".format(args.type,config["common"]["system"],config["common"]["energy"]);
+        outname = "output_{0}_mee_ptee_{1}_{2}TeV_{3}.root".format(args.type,config["common"]["system"],config["common"]["energy"],config["common"]["period"]);
         print("output file name = ",outname);
         outfile = TFile(outname,"RECREATE");
 
         if ismc:
             for ic in range(0,nc):
-                outlist = analyze_mee_ptee_efficiency(rootfile,cutnames[ic],arr_mee,arr_ptee,arr_dcaee);
+                outlist = analyze_mee_ptee_efficiency(rootfile,cutnames[ic],arr_mee,arr_ptee);
                 outlist.SetOwner(True);
                 outfile.WriteTObject(outlist);
                 outlist.Clear();
