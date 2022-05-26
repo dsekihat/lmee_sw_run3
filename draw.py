@@ -74,7 +74,7 @@ def draw_ap():
 
     hV0AP = fm.get("hV0APplot");
     ROOT.SetOwnership(hV0AP,False);
-    hV0AP.SetXTitle("#alpha = #frac{p_{L}^{-} - p_{L}^{+}}{p_{L}^{-} + p_{L}^{+}}");
+    hV0AP.SetXTitle("#alpha = #frac{p_{L}^{+} - p_{L}^{-}}{p_{L}^{+} + p_{L}^{-}}");
     hV0AP.SetYTitle("q_{T} (GeV/c)");
     hV0AP.Draw("colz");
     hV0AP.GetXaxis().SetTitleOffset(1.5);
@@ -115,6 +115,7 @@ def draw_v0_dedx():
         h2_dedx_pin.GetYaxis().SetTitleOffset(1.5);
         h2_dedx_pin.GetXaxis().SetTitleSize(0.04);
         h2_dedx_pin.GetYaxis().SetTitleSize(0.04);
+        h2_dedx_pin.Draw("colz");
 
     date = datetime.date.today().strftime("%Y%m%d");
     c1.Modified();
@@ -123,7 +124,6 @@ def draw_v0_dedx():
     c1.SaveAs("{0}_pilotbeam_pp_900GeV_V0_TPCdEdx.pdf".format(date));
     c1.SaveAs("{0}_pilotbeam_pp_900GeV_V0_TPCdEdx.png".format(date));
     ROOT.SetOwnership(c1,False);
-
 #_____________________________________________________________________
 def draw_v0_tofbeta():
     list_hierarchies = [
@@ -143,15 +143,16 @@ def draw_v0_tofbeta():
         p1.SetMargin(0.12,0.12,0.15,0.03);
         p1.SetLogx(1);
         p1.SetLogz(1);
-        h2_dedx_pin = fm.get("h2TOFbeta_Pin_{0}".format(parnames[ip]));
-        h2_dedx_pin.Draw("colz");
-        ROOT.SetOwnership(h2_dedx_pin,False);
-        h2_dedx_pin.SetXTitle("p_{in} (GeV/c)");
-        h2_dedx_pin.SetYTitle("TOF #beta");
-        h2_dedx_pin.GetXaxis().SetTitleOffset(1.5);
-        h2_dedx_pin.GetYaxis().SetTitleOffset(1.5);
-        h2_dedx_pin.GetXaxis().SetTitleSize(0.04);
-        h2_dedx_pin.GetYaxis().SetTitleSize(0.04);
+        h2_beta_pin = fm.get("h2TOFbeta_Pin_{0}".format(parnames[ip]));
+        h2_beta_pin.Draw("colz");
+        ROOT.SetOwnership(h2_beta_pin,False);
+        h2_beta_pin.SetXTitle("p_{in} (GeV/c)");
+        h2_beta_pin.SetYTitle("TOF #beta");
+        h2_beta_pin.GetXaxis().SetTitleOffset(1.5);
+        h2_beta_pin.GetYaxis().SetTitleOffset(1.5);
+        h2_beta_pin.GetXaxis().SetTitleSize(0.04);
+        h2_beta_pin.GetYaxis().SetTitleSize(0.04);
+        h2_beta_pin.Draw("colz");
 
     date = datetime.date.today().strftime("%Y%m%d");
     c1.Modified();
@@ -160,6 +161,62 @@ def draw_v0_tofbeta():
     c1.SaveAs("{0}_pilotbeam_pp_900GeV_V0_TOFbeta.pdf".format(date));
     c1.SaveAs("{0}_pilotbeam_pp_900GeV_V0_TOFbeta.png".format(date));
     ROOT.SetOwnership(c1,False);
+#_____________________________________________________________________
+def draw_v0_mass():
+    list_hierarchies = [
+        "AnalysisResults_apass4_noQC_V0.root"
+        ,"v0-selector"
+    ];
+    fm = FileManager(list_hierarchies);
+
+    parnames_symbol = ["#gamma","K_{S}^{0}","#Lambda","#bar{#Lambda}"];
+    parnames = ["Gamma","K0S","Lambda","AntiLambda"];
+    titles = ["e^{+}e^{-}","#pi^{+}#pi^{-}","p#pi^{-}","#bar{p}#pi^{+}"];
+    np = len(parnames);
+    gStyle.SetPalette(55);
+    c1 = TCanvas("c1","c1",0,0,1200,800);
+    c1.Divide(2,2);
+
+    for ip in range(0,np):
+        p1 = c1.cd(ip+1);
+        p1.SetMargin(0.12,0.03,0.12,0.03);
+        p1.SetTicks(1,1);
+        ROOT.SetOwnership(p1,False);
+        h1 = fm.get("hMass{0}".format(parnames[ip]));
+        h1.SetDirectory(0);
+        h1.SetXTitle("M_{{{0}}} (GeV/c^{{2}})".format(titles[ip]));
+        h1.SetYTitle("Number of Entries");
+        h1.GetXaxis().SetTitleOffset(1.1);
+        h1.GetYaxis().SetTitleOffset(1.1);
+        h1.GetXaxis().SetTitleSize(0.05);
+        h1.GetYaxis().SetTitleSize(0.05);
+        h1.GetXaxis().SetLabelSize(0.04);
+        h1.GetYaxis().SetLabelSize(0.04);
+        ROOT.SetOwnership(h1,False);
+        h1.Sumw2();
+        h1.Draw("HE0");
+
+        txt = TPaveText(0.15,0.75,0.4,0.92,"NDC");
+        txt.SetFillColor(kWhite);
+        txt.SetFillStyle(0);
+        txt.SetBorderSize(0);
+        txt.SetTextAlign(12);#middle,left
+        txt.SetTextFont(42);#helvetica
+        txt.SetTextSize(0.05);
+        txt.AddText("pp at #sqrt{s} = 900 GeV");
+        txt.AddText("pilot beam data");
+        txt.AddText("{0} #rightarrow {1}".format(parnames_symbol[ip],titles[ip]));
+        txt.Draw();
+        ROOT.SetOwnership(txt,False);
+
+
+    date = datetime.date.today().strftime("%Y%m%d");
+    c1.Modified();
+    c1.Update();
+    c1.SaveAs("{0}_pilotbeam_pp_900GeV_V0_mass.eps".format(date));
+    c1.SaveAs("{0}_pilotbeam_pp_900GeV_V0_mass.pdf".format(date));
+    c1.SaveAs("{0}_pilotbeam_pp_900GeV_V0_mass.png".format(date));
+    ROOT.SetOwnership(c1,False);
 
 #_____________________________________________________________________
 #_____________________________________________________________________
@@ -167,6 +224,7 @@ if __name__ == "__main__":
     #cutnames = ["BeforeCuts","jpsiO2MCdebugCuts"];
     #draw_dedx_pin(cutnames);
     draw_ap();
-    draw_v0_dedx();
-    draw_v0_tofbeta();
+    #draw_v0_dedx();
+    #draw_v0_tofbeta();
+    #draw_v0_mass();
 
