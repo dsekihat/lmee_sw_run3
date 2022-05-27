@@ -9,16 +9,16 @@ class VirutalPhotonFitter:
         self.h1vph   = h1vph.Clone("h1vph_tmp");
         self.f1vph = TF1("f1vph",self.vph_function,0,5,1);
         self.f1vph.SetNpx(5000);
-        self.f1vph.SetLineColor(kBlack);
         self.f1vph.SetParLimits(0,-1,+1);
         self.f1vph.SetParameter(0,0.1);
         self.f1vph.SetParError(0,0.01);
         self.f1vph.SetParName(0,"r");
-
-    def vph_function(self,x,par):
+        #print(self.h1data.GetNbinsX());
         #print(self.h1LF.GetNbinsX());
         #print(self.h1HF.GetNbinsX());
         #print(self.h1vph.GetNbinsX());
+
+    def vph_function(self,x,par):
         r = par[0];#direct photon fraction
         mbinLF  = self.h1LF .FindBin(x[0]);
         mbinHF  = self.h1HF .FindBin(x[0]);
