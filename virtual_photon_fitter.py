@@ -1,7 +1,7 @@
 import ROOT
 from ROOT import TH1D, TF1
 
-class VirutalPhotonFitter:
+class VirtualPhotonFitter:
     def __init__(self, h1data, h1LF, h1HF, h1vph):
         self.h1data  = h1data.Clone("h1data_tmp");
         self.h1LF    = h1LF.Clone("h1LF_tmp");
