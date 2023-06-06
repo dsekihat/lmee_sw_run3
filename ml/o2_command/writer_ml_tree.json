@@ -1,0 +1,22 @@
+{
+    "OutputDirector": {
+        "debugmode": true,
+        "resfile": "emAO2D_ml_lmee_pair",
+        "resfilemode": "RECREATE",
+        "ntfmerge": 1,
+        "OutputDescriptors": [
+            {
+                "table": "AOD/MYCOLLISION/0",
+                "treename": "Collisions"
+            },
+            {
+                "table": "AOD/MYPAIR/0",
+                "treename": "Pairs"
+            },
+            {
+                "table": "AOD/MYTRACK/0",
+                "treename": "Tracks"
+            }
+        ]
+    }
+}
