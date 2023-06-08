@@ -69,10 +69,7 @@ def extract(filename_csv, ptmin, etamax):
     #        print("lf->ee", row.fM, row.fPt, row['pos_track_fSign'], row['neg_track_fSign'], row['pos_track_fPdgCode'], row['neg_track_fPdgCode'], row['pos_track_fMotherPdgCode'], row['neg_track_fMotherPdgCode'], row['pos_track_fGrandMotherPdgCode'], row['neg_track_fGrandMotherPdgCode']);
 
     #prompt J/psi
-    df_prompt_jpsi = df[ (df.fIsSM==1) & (abs(df.fPdgCode) == 443) & (df.pos_track_fIsPhysicalPrimary == 1) & (df.neg_track_fIsPhysicalPrimary == 1)
-    & ~ ( ( (500 < abs(df.pos_track_fGrandMotherPdgCode)) & (abs(df.pos_track_fGrandMotherPdgCode) < 599) ) | ( (5000 < abs(df.pos_track_fGrandMotherPdgCode)) & (abs(df.pos_track_fGrandMotherPdgCode) < 5999) ) )
-    & ~ ( ( (500 < abs(df.neg_track_fGrandMotherPdgCode)) & (abs(df.neg_track_fGrandMotherPdgCode) < 599) ) | ( (5000 < abs(df.neg_track_fGrandMotherPdgCode)) & (abs(df.neg_track_fGrandMotherPdgCode) < 5999) ) )
-    ];
+    df_prompt_jpsi = df[ (df.fIsSM==1) & (abs(df.fPdgCode) == 443) & (df.pos_track_fIsPhysicalPrimary == 1) & (df.neg_track_fIsPhysicalPrimary == 1) & (df.fIsPrompt==1) ];
     npair = len(df_prompt_jpsi);
     print("number of ee pairs from prompt jpsi", npair);
     hs_prompt_jpsi = fill_sparse_hist(hs, df_prompt_jpsi);
@@ -81,10 +78,7 @@ def extract(filename_csv, ptmin, etamax):
     outfile.WriteTObject(hs_prompt_jpsi);
 
     #nonprompt J/psi
-    df_nonprompt_jpsi = df[ (df.fIsSM==1) & (abs(df.fPdgCode) == 443) & (df.pos_track_fIsPhysicalPrimary == 1) & (df.neg_track_fIsPhysicalPrimary == 1)
-    & ( ( (500 < abs(df.pos_track_fGrandMotherPdgCode)) & (abs(df.pos_track_fGrandMotherPdgCode) < 599) ) | ( (5000 < abs(df.pos_track_fGrandMotherPdgCode)) & (abs(df.pos_track_fGrandMotherPdgCode) < 5999) ) )
-    & ( ( (500 < abs(df.neg_track_fGrandMotherPdgCode)) & (abs(df.neg_track_fGrandMotherPdgCode) < 599) ) | ( (5000 < abs(df.neg_track_fGrandMotherPdgCode)) & (abs(df.neg_track_fGrandMotherPdgCode) < 5999) ) )
-    ];
+    df_nonprompt_jpsi = df[ (df.fIsSM==1) & (abs(df.fPdgCode) == 443) & (df.pos_track_fIsPhysicalPrimary == 1) & (df.neg_track_fIsPhysicalPrimary == 1) & (df.fIsPrompt==0) ];
     npair = len(df_nonprompt_jpsi);
     print("number of ee pairs from nonprompt jpsi", npair);
     hs_nonprompt_jpsi = fill_sparse_hist(hs, df_nonprompt_jpsi);
@@ -315,16 +309,17 @@ if __name__ == "__main__":
     filename_csv = "data_ele_ml.csv";
     #ptmin = 0.;
     #etamax = 0.9;
-    #extract(filename_csv, 0.0 , 0.9);
+    extract(filename_csv, 0.0 , 0.9);
     #extract(filename_csv, 0.05, 0.8);
     #extract(filename_csv, 0.1 , 0.8);
-    #extract(filename_csv, 0.2 , 0.8);
+    extract(filename_csv, 0.2 , 0.8);
     #extract(filename_csv, 0.4 , 0.8);
     period = "LHC23c2b";
     #list_parnames = ['lf','prompt_jpsi','nonprompt_jpsi', 'c2e_c2e','b2e_b2e','b2c2e_b2c2e', 'b2c2e_b2e_sameb', 'b2c2e_b2e_diffb', 'pc'];
 
-    #list_parnames_sm = ['lf', 'prompt_jpsi','nonprompt_jpsi'];
-    #list_parnames_hf = ['c2e_c2e','b2e_b2e','b2c2e_b2c2e', 'b2c2e_b2e_sameb', 'b2c2e_b2e_diffb'];
+    list_parnames_sm = ['lf', 'prompt_jpsi','nonprompt_jpsi'];
+    list_parnames_hf = ['c2e_c2e','b2e_b2e','b2c2e_b2c2e', 'b2c2e_b2e_sameb', 'b2c2e_b2e_diffb'];
+    list_parnames_jpsi_hf = ['prompt_jpsi','nonprompt_jpsi', 'c2e_c2e','b2e_b2e','b2c2e_b2c2e', 'b2c2e_b2e_sameb', 'b2c2e_b2e_diffb'];
     #draw_pair(period, list_parnames_sm, 0.4 , 0.8, "_sm");
     #draw_pair(period, list_parnames_hf, 0.4 , 0.8, "_hf");
     #draw_pair(period, list_parnames_sm, 0.2 , 0.8, "_sm");
@@ -336,6 +331,6 @@ if __name__ == "__main__":
     #draw_pair(period, list_parnames_sm, 0.0 , 0.9, "_sm");
     #draw_pair(period, list_parnames_hf, 0.0 , 0.9, "_hf");
 
-    list_parnames_jpsi_hf = ['prompt_jpsi','nonprompt_jpsi', 'c2e_c2e','b2e_b2e','b2c2e_b2c2e', 'b2c2e_b2e_sameb', 'b2c2e_b2e_diffb'];
-    draw_pair(period, list_parnames_jpsi_hf, 0.4 , 0.8, "_jpsi_hf");
-    draw_pair(period, list_parnames_jpsi_hf, 0.2 , 0.8, "_jpsi_hf");
+    #draw_pair(period, list_parnames_jpsi_hf, 0.4 , 0.8, "_jpsi_hf");
+    #draw_pair(period, list_parnames_jpsi_hf, 0.2 , 0.8, "_jpsi_hf");
+    draw_pair(period, list_parnames_jpsi_hf, 0. , 0.9, "_jpsi_hf");

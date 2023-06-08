@@ -96,6 +96,7 @@ def create_ml_input(filename, criteria_v0="", suffix=""):
                 ,tree_pair.fIsSM
                 ,tree_pair.fIsHF
                 ,tree_pair.fPairType
+                ,tree_pair.fIsPrompt
                 ,tree_pair.fPdgCode
                 #,tree_pair.fStatusCode
                 #,tree_pair.fFlags
@@ -154,8 +155,8 @@ def create_ml_input(filename, criteria_v0="", suffix=""):
                 #,tree_track.fMCVz   
                 ,tree_track.fPdgCode
                 ,tree_track.fIsPhysicalPrimary
-                ,tree_track.fMotherPdgCode
-                ,tree_track.fGrandMotherPdgCode
+                #,tree_track.fMotherPdgCode
+                #,tree_track.fGrandMotherPdgCode
             ]);
 
             #second negative track
@@ -208,8 +209,8 @@ def create_ml_input(filename, criteria_v0="", suffix=""):
                 #,tree_track.fMCVz   
                 ,tree_track.fPdgCode
                 ,tree_track.fIsPhysicalPrimary
-                ,tree_track.fMotherPdgCode
-                ,tree_track.fGrandMotherPdgCode
+                #,tree_track.fMotherPdgCode
+                #,tree_track.fGrandMotherPdgCode
             ]);
 
     print("nall = ", nall);
@@ -259,6 +260,7 @@ def create_ml_input(filename, criteria_v0="", suffix=""):
         ,'fIsSM'
         ,'fIsHF'
         ,'fPairType'
+        ,'fIsPrompt'
         ,'fPdgCode'
         #,'fStatusCode'
         #,'fFlags'
@@ -308,8 +310,8 @@ def create_ml_input(filename, criteria_v0="", suffix=""):
         #,'pos_track_fMCVz'
         ,'pos_track_fPdgCode'
         ,'pos_track_fIsPhysicalPrimary'
-        ,'pos_track_fMotherPdgCode'
-        ,'pos_track_fGrandMotherPdgCode'
+        #,'pos_track_fMotherPdgCode'
+        #,'pos_track_fGrandMotherPdgCode'
 
         ,'neg_track_fSign'
         ,'neg_track_fPt'
@@ -353,8 +355,8 @@ def create_ml_input(filename, criteria_v0="", suffix=""):
         #,'neg_track_fMCVz'
         ,'neg_track_fPdgCode'
         ,'neg_track_fIsPhysicalPrimary'
-        ,'neg_track_fMotherPdgCode'
-        ,'neg_track_fGrandMotherPdgCode'
+        #,'neg_track_fMotherPdgCode'
+        #,'neg_track_fGrandMotherPdgCode'
     ];
 
     df = pd.DataFrame(data=data, columns=columns);
@@ -366,7 +368,7 @@ def create_ml_input(filename, criteria_v0="", suffix=""):
     rootfile.Close();
 #_________________________________________________________________________________
 if __name__ == "__main__":
-    filename = "emAO2D_ml_lmee_pair.root";
+    filename = "emAO2D.root";
     criteria = "";
     suffix = "";
     create_ml_input(filename, criteria, suffix);
